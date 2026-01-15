@@ -32,6 +32,15 @@ const Auth = () => {
     severity: "success",
   });
 
+  
+  // Admin info (can later fetch from API)
+  const admin = {
+    name: "Hashi Liyo",
+    email: "hashiliyo@exsample.com",
+    role: "User",
+    profileImage: "/profileImage.png", // path to your uploaded image
+  };
+
   // 🔹 Field validation
   const validateField = (name, value) => {
     if (!value.trim()) return "This field is required";
@@ -127,7 +136,7 @@ const Auth = () => {
   };
 
   return (
-    <Box sx={{ minHeight: "100vh", display: "flex" }}>
+    <Box sx={{ minHeight: "90vh", display: "flex" }}>
       
       {/* LEFT SIDE – FORM */}
       <Box
@@ -182,6 +191,7 @@ const Auth = () => {
                 component="button"
                 variant="body2"
                 onClick={() => navigate("/forgot-password")}
+                sx={{ cursor: "pointer", color: "#8b348e" }}
               >
                 Forgot Password?
               </Link>
@@ -190,6 +200,7 @@ const Auth = () => {
                 component="button"
                 variant="body2"
                 onClick={() => navigate("/signup")}
+                sx={{ cursor: "pointer", color: "#8b348e" }}
               >
                 Create Account
               </Link>
@@ -199,7 +210,13 @@ const Auth = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ borderRadius: 3, padding: 1.5 }}
+              sx={{ borderRadius: 3, padding: 1.5 , mt: 2,
+                padding: 1.5,
+                backgroundColor: "#8b348e",
+                "&:hover": {
+                  backgroundColor: "#4a1f4d",
+                },
+              }}
             >
               Login
             </Button>
@@ -218,7 +235,7 @@ const Auth = () => {
         }}
       />
 
-      {/* 🔔 TOASTER */}
+      {/* TOASTER */}
       <Snackbar
         open={toast.open}
         autoHideDuration={3000}

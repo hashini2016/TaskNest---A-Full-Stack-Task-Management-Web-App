@@ -24,37 +24,30 @@ const Signup = () => {
   const [toast, setToast] = useState({
     open: false,
     message: "",
-    severity: "success", // success | error | warning
+    severity: "success",
   });
 
-  // Validate single field (real-time)
+  // 🔹 Validate single field
   const validateField = (name, value) => {
-    let error = "";
-
-    // Required validation
     if (!value.trim()) {
       return `${name.charAt(0).toUpperCase() + name.slice(1)} is required`;
     }
 
-    // Email validation
     if (name === "email") {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(value)) {
-        error = "Please enter a valid email address";
+        return "Please enter a valid email address";
       }
     }
 
-    // Password validation
-    if (name === "password") {
-      if (value.length < 6) {
-        error = "Password must be at least 6 characters";
-      }
+    if (name === "password" && value.length < 6) {
+      return "Password must be at least 6 characters";
     }
 
-    return error;
+    return "";
   };
 
-  // Handle input changes + real-time validation
+  // 🔹 Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -69,7 +62,7 @@ const Signup = () => {
     }));
   };
 
-  // Validate entire form before submit
+  // 🔹 Validate full form
   const validateForm = () => {
     const newErrors = {
       name: validateField("name", inputs.name),
@@ -78,11 +71,10 @@ const Signup = () => {
     };
 
     setErrors(newErrors);
-
-    return !Object.values(newErrors).some((error) => error);
+    return !Object.values(newErrors).some(Boolean);
   };
 
-  // API call
+  // 🔹 API call
   const sendSignupRequest = async () => {
     const res = await axios.post("http://localhost:5000/api/user/signup", {
       name: inputs.name,
@@ -92,7 +84,7 @@ const Signup = () => {
     return res.data;
   };
 
-  // Submit handler
+  // 🔹 Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -129,8 +121,8 @@ const Signup = () => {
   };
 
   return (
-    <Box sx={{ minHeight: "100vh", display: "flex" }}>
-      {/* Left Side - Form */}
+    <Box sx={{ minHeight: "90vh", display: "flex" }}>
+      {/* LEFT SIDE – FORM */}
       <Box
         sx={{
           flex: 1,
@@ -144,7 +136,7 @@ const Signup = () => {
         <Box
           maxWidth={400}
           width="100%"
-          boxShadow="10px 10px 20px rgba(0,0,0,0.3)"
+          boxShadow="10px 10px 20px rgba(19, 17, 20, 0.3)"
           padding={4}
           borderRadius={5}
         >
@@ -180,9 +172,9 @@ const Signup = () => {
             <TextField
               fullWidth
               name="password"
+              type="password"
               value={inputs.password}
               onChange={handleChange}
-              type="password"
               placeholder="Password"
               margin="normal"
               required
@@ -191,16 +183,32 @@ const Signup = () => {
             />
 
             <Box display="flex" justifyContent="flex-end" mt={1} mb={2}>
-              <Link component="button" onClick={() => navigate("/auth")}>
-                Already have an account? Login
-              </Link>
+              {/* 🔹 Back to login */}
+                          <Typography
+                            variant="body2"
+                            textAlign="center"
+                            mt={2}
+                            sx={{ cursor: "pointer", color: "#8b348e" }}
+                            onClick={() => navigate("/auth")}
+                          >
+                            Already have an account? Login
+                          </Typography>
+              
             </Box>
 
+            {/* 🔹 SIGN UP BUTTON (CUSTOM COLOR) */}
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ borderRadius: 3, padding: 1.5 }}
+              sx={{
+                borderRadius: 3,
+                padding: 1.5,
+                backgroundColor: "#8b348e",
+                "&:hover": {
+                  backgroundColor: "#4a1f4d",
+                },
+              }}
             >
               Sign Up
             </Button>
@@ -208,7 +216,7 @@ const Signup = () => {
         </Box>
       </Box>
 
-      {/* Right Side - Image */}
+      {/* RIGHT SIDE – IMAGE */}
       <Box
         sx={{
           flex: 1,
@@ -219,7 +227,7 @@ const Signup = () => {
         }}
       />
 
-      {/* Toast Notifications */}
+      {/* 🔔 TOAST */}
       <Snackbar
         open={toast.open}
         autoHideDuration={3000}

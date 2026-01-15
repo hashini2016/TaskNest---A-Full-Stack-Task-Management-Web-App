@@ -23,7 +23,7 @@ const Header = () => {
       position="sticky"
       sx={{
         background:
-          "linear-gradient(90deg, rgba(58,75,180,1) 2%, rgba(116,49,110,1) 36%, rgba(2,0,161,1) 73%, rgba(69,92,252,1) 100%)",
+          "linear-gradient(90deg, rgb(161, 23, 159) 100%)",
       }}
     >
       <Toolbar>

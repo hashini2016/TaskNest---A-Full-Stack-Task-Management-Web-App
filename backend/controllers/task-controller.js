@@ -49,3 +49,64 @@ export const getTaskById = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const updateTask = async (req, res) => {
+  try {
+    const task = await Task.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.json({ task });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// DELETE
+export const deleteTask = async (req, res) => {
+  await Task.findByIdAndDelete(req.params.id);
+  res.json({ message: "Task deleted" });
+};
+
+export const getTaskStatusCount = async (req, res) => {
+  try {
+    const result = await Task.aggregate([
+      {
+        $group: {
+          _id: "$priority",
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+
+    // Default response
+    const response = {
+      todo: 0,
+      development: 0,
+      done: 0
+    };
+
+    result.forEach(item => {
+      switch (item._id) {
+        case "TO DO":
+          response.todo = item.count;
+          break;
+        case "Development":
+          response.development = item.count;
+          break;
+        case "Done":
+          response.done = item.count;
+          break;
+        default:
+          break;
+      }
+    });
+
+    res.json(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to fetch priority count" });
+  }
+};
+

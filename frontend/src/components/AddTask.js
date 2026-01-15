@@ -10,18 +10,25 @@ import {
   Divider,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
+  Avatar,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store";
 
-
-
 const AddTask = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // Add dispatch
+  const dispatch = useDispatch();
+
+  // 🔹 USER INFO (same as Home)
+  const admin = {
+    name: "Hashi Liyo",
+    email: "hashiliyo@exsample.com",
+    role: "User",
+    profileImage: "/profileImage.png",
+  };
 
   const [inputs, setInputs] = useState({
     description: "",
@@ -32,22 +39,26 @@ const AddTask = () => {
   });
 
   const [errors, setErrors] = useState({});
-  const [toast, setToast] = useState({ open: false, message: "", severity: "success" });
+  const [toast, setToast] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
 
   const priorities = ["TO DO", "Development", "Done"];
 
-  // Sidebar menu items
+  // 🔹 Sidebar menu
   const menuItems = [
-    { text: "Dashboard", path: "/blogs" },
+    { text: "Dashboard", path: "/home" },
     { text: "All Task", path: "/view-task" },
     { text: "Add Task", path: "/add-task" },
-    { text: "Logout", path: "/auth" }, 
+    { text: "Logout", path: "/auth" },
   ];
 
   const handleNavigation = (path) => {
     if (path === "/auth") {
       localStorage.removeItem("userId");
-      dispatch(authActions.logout()); // <-- fix applied
+      dispatch(authActions.logout());
       navigate("/auth");
     } else {
       navigate(path);
@@ -55,21 +66,17 @@ const AddTask = () => {
   };
 
   const validateField = (name, value) => {
-    let error = "";
-
-    if (!value && name !== "remark") {
-      error = "This field is required";
-    }
+    if (!value && name !== "remark") return "This field is required";
 
     if (name === "startDate" && inputs.endDate && value > inputs.endDate) {
-      error = "Start date cannot exceed end date";
+      return "Start date cannot exceed end date";
     }
 
     if (name === "endDate" && inputs.startDate && value < inputs.startDate) {
-      error = "End date cannot be before start date";
+      return "End date cannot be before start date";
     }
 
-    return error;
+    return "";
   };
 
   const handleChange = (e) => {
@@ -91,16 +98,34 @@ const AddTask = () => {
     e.preventDefault();
 
     if (!validateForm()) {
-      setToast({ open: true, message: "Please fix the errors", severity: "error" });
+      setToast({
+        open: true,
+        message: "Please fix the errors",
+        severity: "error",
+      });
       return;
     }
 
     try {
       const userId = localStorage.getItem("userId");
-      await axios.post("http://localhost:5000/api/task", { ...inputs,userId });
+      await axios.post("http://localhost:5000/api/task", {
+        ...inputs,
+        userId,
+      });
 
-      setToast({ open: true, message: "Task created successfully!", severity: "success" });
-      setInputs({ description: "", startDate: "", endDate: "", priority: "", remark: "" });
+      setToast({
+        open: true,
+        message: "Task created successfully!",
+        severity: "success",
+      });
+
+      setInputs({
+        description: "",
+        startDate: "",
+        endDate: "",
+        priority: "",
+        remark: "",
+      });
       setErrors({});
     } catch (err) {
       setToast({
@@ -113,36 +138,70 @@ const AddTask = () => {
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
-      {/* Sidebar */}
+      {/* SIDEBAR */}
       <Box
         sx={{
-          width: 240,
+          width: 260,
           bgcolor: "#7b337e",
           color: "white",
+          p: 2,
           display: "flex",
           flexDirection: "column",
-          p: 2,
+          alignItems: "center",
         }}
       >
-        <Typography variant="h5" mb={3} textAlign="center">
-          TaskNest
+        {/* PROFILE */}
+        <Avatar
+          src={admin.profileImage}
+          alt={admin.name}
+          sx={{ width: 80, height: 80, mb: 1 }}
+        />
+
+        {/* ROLE */}
+        <Button
+          variant="contained"
+          size="small"
+          sx={{
+            mb: 1,
+            bgcolor: "#a44db2",
+            borderRadius: 2,
+            fontSize: "12px",
+            px: 2,
+          }}
+        >
+          {admin.role}
+        </Button>
+
+        <Typography variant="subtitle1" fontWeight="bold">
+          {admin.name}
         </Typography>
-        <Divider sx={{ bgcolor: "white", mb: 2 }} />
-        <List>
+
+        <Typography variant="body2" sx={{ opacity: 0.8 }}>
+          {admin.email}
+        </Typography>
+
+        <Divider sx={{ bgcolor: "white", width: "100%", my: 2 }} />
+
+        {/* MENU */}
+        <List sx={{ width: "100%" }}>
           {menuItems.map((item) => (
             <ListItem
               button
               key={item.text}
               onClick={() => handleNavigation(item.path)}
-              sx={{ mb: 1, borderRadius: 1, "&:hover": { bgcolor: "#5e2860" } }}
+              sx={{
+                mb: 1,
+                borderRadius: 1,
+                "&:hover": { bgcolor: "#5e2860" },
+              }}
             >
-              <ListItemText primary={item.text} />
+              <ListItemText primary={item.text} sx={{ pl: 1 }} />
             </ListItem>
           ))}
         </List>
       </Box>
 
-      {/* Main content */}
+      {/* MAIN CONTENT */}
       <Box sx={{ flex: 1, p: 4, bgcolor: "#f5f5f5" }}>
         <Typography variant="h4" mb={3}>
           Add New Task
@@ -170,7 +229,6 @@ const AddTask = () => {
             margin="normal"
             InputLabelProps={{ shrink: true }}
             error={Boolean(errors.startDate)}
-            helperText={errors.startDate || "Select start date"}
           />
 
           <TextField
@@ -183,7 +241,6 @@ const AddTask = () => {
             margin="normal"
             InputLabelProps={{ shrink: true }}
             error={Boolean(errors.endDate)}
-            helperText={errors.endDate || "Select end date"}
           />
 
           <TextField
@@ -195,10 +252,11 @@ const AddTask = () => {
             onChange={handleChange}
             margin="normal"
             error={Boolean(errors.priority)}
-            helperText={errors.priority || "Select priority"}
           >
             {priorities.map((p) => (
-              <MenuItem key={p} value={p}>{p}</MenuItem>
+              <MenuItem key={p} value={p}>
+                {p}
+              </MenuItem>
             ))}
           </TextField>
 
@@ -211,13 +269,25 @@ const AddTask = () => {
             margin="normal"
           />
 
-          <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            sx={{
+              mt: 2,
+              padding: 1.5,
+              backgroundColor: "#8b348e",
+              "&:hover": {
+                backgroundColor: "#4a1f4d",
+              },
+            }}
+          >
             Create Task
           </Button>
         </form>
       </Box>
 
-      {/* Toast */}
+      {/* TOAST */}
       <Snackbar
         open={toast.open}
         autoHideDuration={3000}

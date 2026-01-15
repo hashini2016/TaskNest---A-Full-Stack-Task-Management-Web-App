@@ -38,16 +38,12 @@ const ForgotPassword = () => {
       }
     }
 
-    if (name === "password") {
-      if (value.length < 6) {
-        return "Password must be at least 6 characters";
-      }
+    if (name === "password" && value.length < 6) {
+      return "Password must be at least 6 characters";
     }
 
-    if (name === "confirmPassword") {
-      if (value !== inputs.password) {
-        return "Passwords do not match";
-      }
+    if (name === "confirmPassword" && value !== inputs.password) {
+      return "Passwords do not match";
     }
 
     return "";
@@ -121,8 +117,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <Box sx={{ minHeight: "100vh", display: "flex" }}>
-      
+    <Box sx={{ minHeight: "90vh", display: "flex" }}>
       {/* LEFT SIDE – FORM */}
       <Box
         sx={{
@@ -182,11 +177,19 @@ const ForgotPassword = () => {
               required
             />
 
+            {/* 🔹 UPDATE PASSWORD BUTTON (CUSTOM COLOR) */}
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 2, padding: 1.5 }}
+              sx={{
+                mt: 2,
+                padding: 1.5,
+                backgroundColor: "#8b348e",
+                "&:hover": {
+                  backgroundColor: "#4a1f4d",
+                },
+              }}
             >
               Update Password
             </Button>
@@ -196,7 +199,7 @@ const ForgotPassword = () => {
               variant="body2"
               textAlign="center"
               mt={2}
-              sx={{ cursor: "pointer", color: "primary.main" }}
+              sx={{ cursor: "pointer", color: "#8b348e" }}
               onClick={() => navigate("/auth")}
             >
               Back to Login
