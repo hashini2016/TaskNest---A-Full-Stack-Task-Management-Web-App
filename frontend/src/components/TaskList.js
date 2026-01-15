@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import profileImage from "../assets/profileImage.png";
 import {
   Box,
   Typography,
@@ -31,7 +32,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store";
 
-const priorities = ["TO DO", "Development", "Done"];
+const priorities = ["Low", "Medium", "High"];
 
 const TaskList = () => {
   const navigate = useNavigate();
@@ -188,7 +189,7 @@ const TaskList = () => {
       >
         {/* PROFILE */}
         <Avatar
-          src={admin.profileImage}
+          src={profileImage}
           alt={admin.name}
           sx={{ width: 80, height: 80, mb: 1 }}
         />
@@ -209,11 +210,11 @@ const TaskList = () => {
         </Button>
 
         <Typography variant="subtitle1" fontWeight="bold">
-          {admin.name}
+          {localStorage.getItem("name")}
         </Typography>
 
         <Typography variant="body2" sx={{ opacity: 0.8 }}>
-          {admin.email}
+          {localStorage.getItem("email")}
         </Typography>
 
         <Divider sx={{ bgcolor: "white", width: "100%", my: 2 }} />
@@ -347,7 +348,7 @@ const TaskList = () => {
 
           <DialogActions>
             <Button onClick={() => setOpenEdit(false)}>Cancel</Button>
-            <Button variant="contained" onClick={handleUpdate}>
+            <Button   sx={{ cursor: "pointer", bgcolor: "#8b348e" }} variant="contained" onClick={handleUpdate}>
               Update
             </Button>
           </DialogActions>

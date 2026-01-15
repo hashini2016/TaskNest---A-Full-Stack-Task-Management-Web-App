@@ -69,44 +69,44 @@ export const deleteTask = async (req, res) => {
   res.json({ message: "Task deleted" });
 };
 
+
 export const getTaskStatusCount = async (req, res) => {
   try {
     const result = await Task.aggregate([
-      {
-        $group: {
-          _id: "$priority",
-          count: { $sum: 1 }
-        }
-      }
+      { $group: { _id: "$priority", count: { $sum: 1 } } }
     ]);
 
-    // Default response
-    const response = {
-      todo: 0,
-      development: 0,
-      done: 0
-    };
+    const response = { Low: 0, Medium: 0, High: 0 };
 
     result.forEach(item => {
       switch (item._id) {
-        case "TO DO":
-          response.todo = item.count;
+        case "Low":
+          response.Low = item.count;
           break;
-        case "Development":
-          response.development = item.count;
+        case "Medium":
+          response.Medium = item.count;
           break;
-        case "Done":
-          response.done = item.count;
-          break;
-        default:
+        case "High":
+          response.High = item.count;
           break;
       }
     });
 
     res.json(response);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Failed to fetch priority count" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to fetch task counts" });
   }
 };
 
+export const getRecentTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find({
+      priority: "Low"
+    }).populate("createdBy", "name email");
+
+    res.status(200).json({ tasks });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

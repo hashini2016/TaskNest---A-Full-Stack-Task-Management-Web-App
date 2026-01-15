@@ -13,7 +13,7 @@ export const forgotPassword = async (req, res, next) => {
 
   let existingUser;
   try {
-    existingUser = await User.findOne({ email });
+    existingUser = await User.finHigh({ email });
   } catch (err) {
     return res.status(500).json({ message: "Server error" });
   }

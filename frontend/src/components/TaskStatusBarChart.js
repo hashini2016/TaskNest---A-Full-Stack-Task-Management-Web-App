@@ -5,10 +5,10 @@ import {
   CategoryScale,
   LinearScale,
   BarElement,
-  Title,
   Tooltip,
   Legend
 } from "chart.js";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 import axios from "axios";
 import { Box, Typography } from "@mui/material";
 
@@ -16,51 +16,70 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
-  Title,
   Tooltip,
-  Legend
+  Legend,
+  ChartDataLabels
 );
 
 const TaskStatusBarChart = () => {
   const [counts, setCounts] = useState({
-    todo: 0,
-    development: 0,
-    done: 0
+    Low: 0,
+    Medium: 0,
+    High: 0
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:5000/api/task/status-count"
-        );
-        setCounts(res.data);
-      } catch (error) {
-        console.error("Failed to fetch chart data", error);
-      }
-    };
+  axios
+    .get("http://localhost:5000/api/task/statusCount")
+    .then((res) => setCounts(res.data))
+    .catch((err) => console.error(err));
+}, []);
 
-    fetchData();
-  }, []);
 
   const data = {
-    labels: ["TO DO", "Development", "Done"],
+    labels: ["Low", "Medium", "High"],
     datasets: [
       {
         label: "Task Count",
-        data: [counts.todo, counts.development, counts.done],
+        data: [counts.Low, counts.Medium, counts.High],
         backgroundColor: ["#f57c00", "#1976d2", "#388e3c"]
       }
     ]
   };
 
+  const options = {
+  responsive: true,
+  maintainAspectRatio: false, // 🔴 REQUIRED
+  scales: {
+    y: {
+      beginAtZero: true
+    }
+  }
+};
+
+
   return (
-    <Box sx={{ bgcolor: "white", p: 3, borderRadius: 2 }}>
-      <Typography variant="h6" mb={2}>
-        Task Progress
-      </Typography>
-      <Bar data={data} />
-    </Box>
+    <Box
+  sx={{
+    bgcolor: "#fff",
+    p: 2,
+    borderRadius: 1,
+    width: 800,           // chart width
+    height: 400,          // chart height
+    mx: "auto",           // horizontal center
+    display: "flex",      // flex container
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"  // vertical center inside Box
+  }}
+>
+  <Typography variant="h6" mb={1}>
+    Task Progress
+  </Typography>
+
+  <Bar data={data} options={options} />
+</Box>
+
   );
 };
 

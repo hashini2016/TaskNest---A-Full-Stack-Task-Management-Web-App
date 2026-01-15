@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import TaskStatusBarChart from "../components/TaskStatusBarChart";
+import profileImage from "../assets/profileImage.png";
 import {
+  TableContainer,
+  TableHead,
+  Paper,
+  Table,
+  TableCell,
+  TableBody,
+  TableRow,
   Box,
   Typography,
   List,
@@ -51,11 +59,11 @@ const Home = () => {
   };
 
   // Fetch recent tasks
-  useEffect(() => {
+ useEffect(() => {
     const fetchRecentTasks = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/tasks?limit=3"
+          "http://localhost:5000/api/task/recentTask"
         );
         setRecentTasks(res.data.tasks);
       } catch (error) {
@@ -82,7 +90,7 @@ const Home = () => {
       >
         {/* PROFILE */}
         <Avatar
-          src={admin.profileImage}
+          src={profileImage}
           alt={admin.name}
           sx={{ width: 80, height: 80, mb: 1 }}
         />
@@ -103,11 +111,11 @@ const Home = () => {
         </Button>
 
         <Typography variant="subtitle1" fontWeight="bold">
-          {admin.name}
+          {localStorage.getItem("name")}
         </Typography>
 
         <Typography variant="body2" sx={{ opacity: 0.8 }}>
-          {admin.email}
+          {localStorage.getItem("email")}
         </Typography>
 
         <Divider sx={{ bgcolor: "white", width: "100%", mt: 2, mb: 2 }} />
@@ -139,35 +147,32 @@ const Home = () => {
           Recent Tasks
         </Typography>
 
-        <Grid container spacing={2}>
-          {recentTasks.length > 0 ? (
-            recentTasks.map((task) => (
-              <Grid item xs={12} md={4} key={task._id}>
-                <Card sx={{ borderRadius: 2 }}>
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      {task.title}
-                    </Typography>
-
-                    <Typography color="text.secondary" mb={1}>
-                      {task.description}
-                    </Typography>
-
-                    <Chip
-                      label={task.status}
-                      color={
-                        task.status === "Completed" ? "success" : "warning"
-                      }
-                      size="small"
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))
-          ) : (
-            <Typography>No recent tasks available.</Typography>
-          )}
-        </Grid>
+        <Box sx={{ flex: 1, p: 4, bgcolor: "#f5f5f5" }}>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Description</TableCell>
+                <TableCell>Start</TableCell>
+                <TableCell>End</TableCell>
+                <TableCell>priority</TableCell>
+                <TableCell>Remark</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {recentTasks.map((task) => (
+                <TableRow key={task._id}>
+                  <TableCell>{task.description}</TableCell>
+                  <TableCell>{task.startDate?.split("T")[0]}</TableCell>
+                  <TableCell>{task.endDate?.split("T")[0]}</TableCell>
+                  <TableCell>{task.priority}</TableCell>
+                  <TableCell>{task.remark}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
       </Box>
     </Box>
   );

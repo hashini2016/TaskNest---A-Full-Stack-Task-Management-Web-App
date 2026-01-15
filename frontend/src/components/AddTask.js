@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import profileImage from "../assets/profileImage.png";
 import {
   Box,
   Button,
@@ -45,7 +46,7 @@ const AddTask = () => {
     severity: "success",
   });
 
-  const priorities = ["TO DO", "Development", "Done"];
+  const priorities = ["Low", "Medium", "High"];
 
   // 🔹 Sidebar menu
   const menuItems = [
@@ -152,7 +153,7 @@ const AddTask = () => {
       >
         {/* PROFILE */}
         <Avatar
-          src={admin.profileImage}
+          src={profileImage}
           alt={admin.name}
           sx={{ width: 80, height: 80, mb: 1 }}
         />
@@ -173,11 +174,11 @@ const AddTask = () => {
         </Button>
 
         <Typography variant="subtitle1" fontWeight="bold">
-          {admin.name}
+          {localStorage.getItem("name")}
         </Typography>
 
         <Typography variant="body2" sx={{ opacity: 0.8 }}>
-          {admin.email}
+          {localStorage.getItem("email")}
         </Typography>
 
         <Divider sx={{ bgcolor: "white", width: "100%", my: 2 }} />
