@@ -155,7 +155,7 @@ const Home = () => {
                 <TableCell>Description</TableCell>
                 <TableCell>Start</TableCell>
                 <TableCell>End</TableCell>
-                <TableCell>priority</TableCell>
+                <TableCell>Priority</TableCell>
                 <TableCell>Remark</TableCell>
               </TableRow>
             </TableHead>

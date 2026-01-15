@@ -1,77 +1,97 @@
+import React, { useEffect } from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import Header from "./components/Header";
 import Auth from "./components/Auth";
 import Signup from "./components/SignUp";
 import ForgotPassword from "./components/ForgetPassword";
-import ViewTask from "./components/TaskList"
 import Home from "./components/Home";
 import AddTask from "./components/AddTask";
-import React, { useEffect } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import ViewTask from "./components/TaskList";
+
 import { authActions } from "./store";
+
+/* ---------------- Protected Route ---------------- */
+const ProtectedRoute = ({ children }) => {
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  return isLoggedIn ? children : <Navigate to="/auth" replace />;
+};
 
 function App() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
 
+  /* Persist login on refresh */
   useEffect(() => {
-    if (localStorage.getItem("userId")) {
+    const userId = localStorage.getItem("userId");
+    if (userId) {
       dispatch(authActions.login());
     }
   }, [dispatch]);
 
   return (
-    <React.Fragment>
+    <>
       <Header />
 
       <main>
         <Routes>
-          {/* Auth route: only accessible if NOT logged in */}
+          {/* ---------------- PUBLIC ROUTES ---------------- */}
           <Route
             path="/auth"
-            element={!isLoggedIn ? <Auth /> : <Navigate to="/home" />}
+            element={!isLoggedIn ? <Auth /> : <Navigate to="/home" replace />}
           />
 
-          {/* Signup route */}
           <Route
             path="/signup"
-            element={!isLoggedIn ? <Signup /> : <Navigate to="/home" />}
+            element={!isLoggedIn ? <Signup /> : <Navigate to="/home" replace />}
           />
 
-          {/* Forgot Password */}
           <Route
             path="/forgot-password"
-            element={!isLoggedIn ? <ForgotPassword /> : <Navigate to="/home" />}
+            element={
+              !isLoggedIn ? <ForgotPassword /> : <Navigate to="/home" replace />
+            }
           />
 
-          {/* Home */}
+          {/* ---------------- PROTECTED ROUTES ---------------- */}
           <Route
             path="/home"
-            element={isLoggedIn ? <Home /> : <Navigate to="/auth" />}
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
           />
 
-           <Route
+          <Route
             path="/add-task"
-            element={isLoggedIn ? <AddTask /> : <Navigate to="/auth" />}
+            element={
+              <ProtectedRoute>
+                <AddTask />
+              </ProtectedRoute>
+            }
           />
 
-            <Route
+          <Route
             path="/view-task"
-            element={isLoggedIn ? <ViewTask /> : <Navigate to="/auth" />}
+            element={
+              <ProtectedRoute>
+                <ViewTask />
+              </ProtectedRoute>
+            }
           />
 
-
-          {/* Default redirect */}
+          {/* ---------------- DEFAULT ROUTES ---------------- */}
           <Route
             path="/"
-            element={isLoggedIn ? <Navigate to="/home" /> : <Navigate to="/auth" />}
+            element={<Navigate to={isLoggedIn ? "/home" : "/auth"} replace />}
           />
 
-          {/* Catch-all route */}
-          <Route path="*" element={<Navigate to="/auth" />} />
+          <Route path="*" element={<Navigate to="/auth" replace />} />
         </Routes>
       </main>
-    </React.Fragment>
+    </>
   );
 }
 
