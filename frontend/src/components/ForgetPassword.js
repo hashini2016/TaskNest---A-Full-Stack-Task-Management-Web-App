@@ -1,9 +1,4 @@
-import {
-  Box,
-  Button,
-  TextField,
-  Typography
-} from "@mui/material";
+import { Box, Button, TextField, Typography} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import React, { useState } from "react";
@@ -27,7 +22,7 @@ const ForgotPassword = () => {
     severity: "success",
   });
 
-  // 🔹 Field-level validation
+  
   const validateField = (name, value) => {
     if (!value.trim()) return "This field is required";
 
@@ -49,7 +44,7 @@ const ForgotPassword = () => {
     return "";
   };
 
-  // 🔹 Handle typing
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -64,7 +59,7 @@ const ForgotPassword = () => {
     }));
   };
 
-  // 🔹 Validate full form
+  
   const validateForm = () => {
     const newErrors = {
       email: validateField("email", inputs.email),
@@ -76,7 +71,7 @@ const ForgotPassword = () => {
     return !Object.values(newErrors).some(Boolean);
   };
 
-  // 🔹 Submit
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -118,7 +113,7 @@ const ForgotPassword = () => {
 
   return (
     <Box sx={{ minHeight: "90vh", display: "flex" }}>
-      {/* LEFT SIDE – FORM */}
+      { }
       <Box
         sx={{
           flex: 1,
@@ -177,7 +172,7 @@ const ForgotPassword = () => {
               required
             />
 
-            {/* 🔹 UPDATE PASSWORD BUTTON (CUSTOM COLOR) */}
+            { }
             <Button
               type="submit"
               fullWidth
@@ -194,7 +189,7 @@ const ForgotPassword = () => {
               Update Password
             </Button>
 
-            {/* 🔹 Back to login */}
+            { }
             <Typography
               variant="body2"
               textAlign="center"
@@ -208,7 +203,7 @@ const ForgotPassword = () => {
         </Box>
       </Box>
 
-      {/* RIGHT SIDE – IMAGE */}
+      { }
       <Box
         sx={{
           flex: 1,
@@ -219,7 +214,7 @@ const ForgotPassword = () => {
         }}
       />
 
-      {/* 🔔 TOAST */}
+      { }
       <Snackbar
         open={toast.open}
         autoHideDuration={3000}

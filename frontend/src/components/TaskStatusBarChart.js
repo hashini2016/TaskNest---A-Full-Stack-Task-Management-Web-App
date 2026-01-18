@@ -64,13 +64,13 @@ const TaskStatusBarChart = () => {
     bgcolor: "#fff",
     p: 2,
     borderRadius: 1,
-    width: 800,           // chart width
-    height: 400,          // chart height
-    mx: "auto",           // horizontal center
-    display: "flex",      // flex container
+    width: 800,           
+    height: 400,          
+    mx: "auto",           
+    display: "flex",      
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center"  // vertical center inside Box
+    alignItems: "center"  
   }}
 >
   <Typography variant="h6" mb={1}>

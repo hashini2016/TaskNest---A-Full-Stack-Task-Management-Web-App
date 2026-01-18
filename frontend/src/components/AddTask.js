@@ -23,7 +23,7 @@ const AddTask = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // 🔹 USER INFO (same as Home)
+  
   const admin = {
     name: "Hashi Liyo",
     email: "hashiliyo@exsample.com",
@@ -48,7 +48,7 @@ const AddTask = () => {
 
   const priorities = ["Low", "Medium", "High"];
 
-  // 🔹 Sidebar menu
+  
   const menuItems = [
     { text: "Dashboard", path: "/home" },
     { text: "All Task", path: "/view-task" },
@@ -139,7 +139,7 @@ const AddTask = () => {
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
-      {/* SIDEBAR */}
+      
       <Box
         sx={{
           width: 260,
@@ -151,14 +151,14 @@ const AddTask = () => {
           alignItems: "center",
         }}
       >
-        {/* PROFILE */}
+        
         <Avatar
           src={profileImage}
           alt={admin.name}
           sx={{ width: 80, height: 80, mb: 1 }}
         />
 
-        {/* ROLE */}
+        
         <Button
           variant="contained"
           size="small"
@@ -183,7 +183,7 @@ const AddTask = () => {
 
         <Divider sx={{ bgcolor: "white", width: "100%", my: 2 }} />
 
-        {/* MENU */}
+        
         <List sx={{ width: "100%" }}>
           {menuItems.map((item) => (
             <ListItem
@@ -202,7 +202,7 @@ const AddTask = () => {
         </List>
       </Box>
 
-      {/* MAIN CONTENT */}
+      
       <Box sx={{ flex: 1, p: 4, bgcolor: "#f5f5f5" }}>
         <Typography variant="h4" mb={3}>
           Add New Task
@@ -288,7 +288,7 @@ const AddTask = () => {
         </form>
       </Box>
 
-      {/* TOAST */}
+      
       <Snackbar
         open={toast.open}
         autoHideDuration={3000}

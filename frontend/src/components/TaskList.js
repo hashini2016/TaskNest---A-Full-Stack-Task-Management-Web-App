@@ -38,7 +38,7 @@ const TaskList = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // 🔹 USER INFO (same as other pages)
+  
   const admin = {
     name: "Hashi Liyo",
     email: "hashiliyo@exsample.com",
@@ -53,7 +53,7 @@ const TaskList = () => {
     severity: "success",
   });
 
-  // Edit popup state
+
   const [openEdit, setOpenEdit] = useState(false);
   const [editTaskId, setEditTaskId] = useState(null);
   const [inputs, setInputs] = useState({
@@ -82,7 +82,6 @@ const TaskList = () => {
     }
   };
 
-  // ================= API =================
   const fetchTasks = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/task");
@@ -118,7 +117,7 @@ const TaskList = () => {
     }
   };
 
-  // ================= EDIT =================
+  
   const handleEditOpen = (task) => {
     setEditTaskId(task._id);
     setInputs({
@@ -175,7 +174,6 @@ const TaskList = () => {
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
-      {/* SIDEBAR */}
       <Box
         sx={{
           width: 260,
@@ -187,14 +185,13 @@ const TaskList = () => {
           alignItems: "center",
         }}
       >
-        {/* PROFILE */}
         <Avatar
           src={profileImage}
           alt={admin.name}
           sx={{ width: 80, height: 80, mb: 1 }}
         />
 
-        {/* ROLE */}
+        
         <Button
           variant="contained"
           size="small"
@@ -219,7 +216,7 @@ const TaskList = () => {
 
         <Divider sx={{ bgcolor: "white", width: "100%", my: 2 }} />
 
-        {/* MENU */}
+        
         <List sx={{ width: "100%" }}>
           {menuItems.map((item) => (
             <ListItem
@@ -237,8 +234,6 @@ const TaskList = () => {
           ))}
         </List>
       </Box>
-
-      {/* CONTENT */}
       <Box sx={{ flex: 1, p: 4, bgcolor: "#f5f5f5" }}>
         <Typography variant="h4" mb={3}>
           All Tasks
@@ -279,7 +274,6 @@ const TaskList = () => {
           </Table>
         </TableContainer>
 
-        {/* EDIT DIALOG */}
         <Dialog open={openEdit} onClose={() => setOpenEdit(false)} fullWidth>
           <DialogTitle>Edit Task</DialogTitle>
           <DialogContent>
@@ -354,7 +348,6 @@ const TaskList = () => {
           </DialogActions>
         </Dialog>
 
-        {/* TOAST */}
         <Snackbar
           open={toast.open}
           autoHideDuration={3000}

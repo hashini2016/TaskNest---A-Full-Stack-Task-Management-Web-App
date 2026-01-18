@@ -33,7 +33,7 @@ const Home = () => {
 
   const [recentTasks, setRecentTasks] = useState([]);
 
-  // User info (can later fetch from API)
+  
   const admin = {
     name: "Hashi Liyo",
     email: "hashiliyo@exsample.com",
@@ -58,7 +58,6 @@ const Home = () => {
     }
   };
 
-  // Fetch recent tasks
  useEffect(() => {
     const fetchRecentTasks = async () => {
       try {
@@ -76,7 +75,7 @@ const Home = () => {
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
-      {/* SIDEBAR */}
+      
       <Box
         sx={{
           width: 260,
@@ -88,14 +87,14 @@ const Home = () => {
           alignItems: "center",
         }}
       >
-        {/* PROFILE */}
+        
         <Avatar
           src={profileImage}
           alt={admin.name}
           sx={{ width: 80, height: 80, mb: 1 }}
         />
 
-        {/* ROLE BUTTON */}
+        
         <Button
           variant="contained"
           size="small"
@@ -120,7 +119,7 @@ const Home = () => {
 
         <Divider sx={{ bgcolor: "white", width: "100%", mt: 2, mb: 2 }} />
 
-        {/* MENU */}
+        
         <List sx={{ width: "100%" }}>
           {menuItems.map((item) => (
             <ListItem
@@ -139,7 +138,7 @@ const Home = () => {
         </List>
       </Box>
 
-      {/* MAIN CONTENT */}
+      
       <Box sx={{ flex: 1, p: 4, bgcolor: "#f5f5f5" }}>
         <Typography variant="h4" mb={2}>Welcome to TaskNest!</Typography>
         <TaskStatusBarChart />

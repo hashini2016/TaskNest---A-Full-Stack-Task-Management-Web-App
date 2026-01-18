@@ -27,7 +27,6 @@ const Signup = () => {
     severity: "success",
   });
 
-  // 🔹 Validate single field
   const validateField = (name, value) => {
     if (!value.trim()) {
       return `${name.charAt(0).toUpperCase() + name.slice(1)} is required`;
@@ -47,7 +46,7 @@ const Signup = () => {
     return "";
   };
 
-  // 🔹 Handle input change
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -62,7 +61,7 @@ const Signup = () => {
     }));
   };
 
-  // 🔹 Validate full form
+
   const validateForm = () => {
     const newErrors = {
       name: validateField("name", inputs.name),
@@ -74,7 +73,7 @@ const Signup = () => {
     return !Object.values(newErrors).some(Boolean);
   };
 
-  // 🔹 API call
+  
   const sendSignupRequest = async () => {
     const res = await axios.post("http://localhost:5000/api/user/signup", {
       name: inputs.name,
@@ -84,7 +83,6 @@ const Signup = () => {
     return res.data;
   };
 
-  // 🔹 Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -122,7 +120,6 @@ const Signup = () => {
 
   return (
     <Box sx={{ minHeight: "90vh", display: "flex" }}>
-      {/* LEFT SIDE – FORM */}
       <Box
         sx={{
           flex: 1,
@@ -183,7 +180,6 @@ const Signup = () => {
             />
 
             <Box display="flex" justifyContent="flex-end" mt={1} mb={2}>
-              {/* 🔹 Back to login */}
                           <Typography
                             variant="body2"
                             textAlign="center"
@@ -196,7 +192,6 @@ const Signup = () => {
               
             </Box>
 
-            {/* 🔹 SIGN UP BUTTON (CUSTOM COLOR) */}
             <Button
               type="submit"
               fullWidth
@@ -216,7 +211,6 @@ const Signup = () => {
         </Box>
       </Box>
 
-      {/* RIGHT SIDE – IMAGE */}
       <Box
         sx={{
           flex: 1,
@@ -227,7 +221,6 @@ const Signup = () => {
         }}
       />
 
-      {/* 🔔 TOAST */}
       <Snackbar
         open={toast.open}
         autoHideDuration={3000}

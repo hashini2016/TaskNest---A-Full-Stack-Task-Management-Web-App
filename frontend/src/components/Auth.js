@@ -33,15 +33,15 @@ const Auth = () => {
   });
 
   
-  // Admin info (can later fetch from API)
+  
   const admin = {
     name: "Hashi Liyo",
     email: "hashiliyo@exsample.com",
     role: "User",
-    profileImage: "/profileImage.png", // path to your uploaded image
+    profileImage: "/profileImage.png", 
   };
 
-  // 🔹 Field validation
+  
   const validateField = (name, value) => {
     if (!value.trim()) return "This field is required";
 
@@ -55,7 +55,7 @@ const Auth = () => {
     return "";
   };
 
-  // 🔹 Handle typing
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -70,7 +70,7 @@ const Auth = () => {
     }));
   };
 
-  // 🔹 Validate form before submit
+  
   const validateForm = () => {
     const newErrors = {
       email: validateField("email", inputs.email),
@@ -81,7 +81,7 @@ const Auth = () => {
     return !Object.values(newErrors).some(Boolean);
   };
 
-  // 🔹 API call
+  
   const sendRequest = async (type = "login") => {
     const res = await axios.post(
       `http://localhost:5000/api/user/${type}`,
@@ -90,7 +90,7 @@ const Auth = () => {
     return res.data;
   };
 
-  // 🔹 Submit
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -140,7 +140,7 @@ const Auth = () => {
   return (
     <Box sx={{ minHeight: "90vh", display: "flex" }}>
       
-      {/* LEFT SIDE – FORM */}
+      { }
       <Box
         sx={{
           flex: 1,
@@ -226,7 +226,7 @@ const Auth = () => {
         </Box>
       </Box>
 
-      {/* RIGHT SIDE – IMAGE */}
+      { }
       <Box
         sx={{
           flex: 1,
@@ -237,7 +237,7 @@ const Auth = () => {
         }}
       />
 
-      {/* TOASTER */}
+      { }
       <Snackbar
         open={toast.open}
         autoHideDuration={3000}

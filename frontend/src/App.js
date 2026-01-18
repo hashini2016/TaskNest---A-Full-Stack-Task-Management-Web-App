@@ -12,7 +12,7 @@ import ViewTask from "./components/TaskList";
 
 import { authActions } from "./store";
 
-/* ---------------- Protected Route ---------------- */
+
 const ProtectedRoute = ({ children }) => {
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   return isLoggedIn ? children : <Navigate to="/auth" replace />;
@@ -22,7 +22,7 @@ function App() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
 
-  /* Persist login on refresh */
+  
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     if (userId) {
@@ -36,7 +36,7 @@ function App() {
 
       <main>
         <Routes>
-          {/* ---------------- PUBLIC ROUTES ---------------- */}
+          
           <Route
             path="/auth"
             element={!isLoggedIn ? <Auth /> : <Navigate to="/home" replace />}
@@ -53,8 +53,6 @@ function App() {
               !isLoggedIn ? <ForgotPassword /> : <Navigate to="/home" replace />
             }
           />
-
-          {/* ---------------- PROTECTED ROUTES ---------------- */}
           <Route
             path="/home"
             element={
@@ -81,8 +79,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-
-          {/* ---------------- DEFAULT ROUTES ---------------- */}
+          
           <Route
             path="/"
             element={<Navigate to={isLoggedIn ? "/home" : "/auth"} replace />}

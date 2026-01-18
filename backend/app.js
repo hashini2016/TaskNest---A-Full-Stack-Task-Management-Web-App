@@ -4,21 +4,21 @@ import cors from "cors";
 import userRouter from "./routes/user-routes.js";
 import taskRouter from "./routes/task-routes.js"
 
-// Environment variables
+
 import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
 
-// Middleware
+
 app.use(cors());
 app.use(express.json());
 
-// Routes
+
 app.use("/api/user", userRouter);
 app.use("/api/task", taskRouter);
 
-// MongoDB Connection
+
 const PORT = process.env.PORT || 5001;
 const MONGO_URI = process.env.MONGO_URI || "your_mongodb_connection_string_here";
 

@@ -1,7 +1,7 @@
 import Task from "../model/Task.js";
 import mongoose from "mongoose";
 
-// Create a new task
+
 export const createTask = async (req, res) => {
   try {
     const { description, startDate, endDate, priority, remark,userId } = req.body;
@@ -29,7 +29,7 @@ export const createTask = async (req, res) => {
   }
 };
 
-// Get all tasks
+
 export const getTasks = async (req, res) => {
   try {
     const tasks = await Task.find().populate("createdBy", "name email");
@@ -39,7 +39,7 @@ export const getTasks = async (req, res) => {
   }
 };
 
-// Get task by ID
+
 export const getTaskById = async (req, res) => {
   try {
     const task = await Task.findById(req.params.id).populate("createdBy", "name email");
@@ -63,7 +63,7 @@ export const updateTask = async (req, res) => {
   }
 };
 
-// DELETE
+
 export const deleteTask = async (req, res) => {
   await Task.findByIdAndDelete(req.params.id);
   res.json({ message: "Task deleted" });

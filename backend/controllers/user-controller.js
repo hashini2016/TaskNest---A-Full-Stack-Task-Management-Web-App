@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 export const forgotPassword = async (req, res, next) => {
   const { email, password } = req.body;
 
-  // Basic validation
+  
   if (!email || !password || password.length < 6) {
     return res.status(400).json({
       message: "Invalid email or password",
